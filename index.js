@@ -1,7 +1,7 @@
 const express = require('express');
 const {
     User
-} = require('../app/models');
+} = require('./app/models');
 const app = express();
 
 app.use(express.urlencoded({
