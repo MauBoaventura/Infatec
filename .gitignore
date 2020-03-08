@@ -1,2 +1,3 @@
 node_*
-src
+src/*
+src/app.js
