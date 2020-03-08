@@ -1,21 +1,25 @@
-const express = require('express');
-const {
-    User
-} = require('../app/models');
-const app = express();
+const express = require("express");
+//Inicia a aplicação express
+const app = require('../app/index');
 
-app.use(express.urlencoded({
-    extended: false
-}));
 
-User.create({
-    name: 'Claudio',
-    email: 'claudio@rocketseat.com.br',
-    password: '123456'
+//Normaliza a porta
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+    return false;
+}
+var port = normalizePort(process.env.PORT || '3000');
+//Poe o servidor para rodar ma porta especificada
+app.listen(port, function () {
+    console.log("Servidor online rodando na porta: " + port);
 });
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-
-app.listen(3000);
