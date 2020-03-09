@@ -4,7 +4,8 @@ const router = express.Router();
 const moment = require("moment")
 
 const {
-    User
+    User,
+    Disciplina
 } = require('../models');
 
 router.get('/', (req, res) => {
@@ -98,6 +99,21 @@ router.post('/cadastrar/aluno', async (req, res) => {
 
 
     // res.status(200).send(req.body)
+})
+//Cadastra nova disciplina
+router.post('/cadastrar/disciplina', async (req, res) => {
+    const {
+        criacao
+    } = req.body;
+
+    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+    try {
+        // console.log(req.body)
+        await Disciplina.create(req.body)
+        res.status(200).send(req.body)
+    } catch (error) {
+        res.status(400).send(error)
+    }
 })
 
 //Altera dados do usuario diretor
@@ -219,6 +235,8 @@ router.post('/alterar/aluno', async (req, res) => {
                     id: id
                 }
             });
+            res.status(200).send(req.body)
+
         } else {
             res.status(400).send('Email já usado')
         }
@@ -283,6 +301,8 @@ router.post('/alterar/docente', async (req, res) => {
                     id: id
                 }
             });
+            res.status(200).send(req.body)
+
         } else {
             res.status(400).send('Email já usado')
         }
@@ -347,6 +367,8 @@ router.post('/alterar/direcao', async (req, res) => {
                     id: id
                 }
             });
+            res.status(200).send(objAtualizado)
+
         } else {
             res.status(400).send('Email já usado')
         }
@@ -357,5 +379,30 @@ router.post('/alterar/direcao', async (req, res) => {
 
 })
 
+//Altera dados do usuario
+router.post('/alterar/disciplina', async (req, res) => {
+    const {
+        id,
+        nome,
+        criacao
+    } = req.body;
+
+    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+
+    try {
+        await Disciplina.update(req.body, {
+            where: {
+                id: id
+            }
+        });
+        console.log(id)
+        console.log(nome)
+        console.log(criacao)
+        res.status(200).send(req.body)
+    } catch (error) {
+
+        res.status(400).send(error)
+    }
+})
 
 module.exports = router;
