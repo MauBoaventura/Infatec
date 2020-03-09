@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   up: (queryInterface, DataTypes) => {
     return queryInterface.createTable('Users', {
@@ -9,18 +7,38 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      name: {
+      nome: {
         allowNull: false,
         type: DataTypes.STRING,
+      },
+      cpf: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      nascimento: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
       email: {
         allowNull: false,
         type: DataTypes.STRING,
         unique: true,
       },
-      password: {
+      senha: {
         allowNull: false,
         type: DataTypes.STRING,
+      },
+      isDirecao: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+      },
+      isDocente: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+      },
+      isAluno: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

@@ -1,18 +1,28 @@
 const express = require('express');
+const handlebars = require("express-handlebars");
 const bodyParser = require("body-parser")
 const {
     User
 } = require('./models');
-
-
-// User.create({
-//     name: 'Claudio',
-//     email: 'clasudio@rocketseat.com.br',
-//     password: '123456'
-// });
+const path = require('path')
 
 const app = express();
 
+//Template engine
+
+app.set('views', path.join(__dirname, 'views'));
+// console.log(__dirname);
+
+app.engine('handlebars', handlebars({
+    layoutsDir: 'views/layouts',
+    defaultLayout: 'main',
+    partialsDir: [
+        'views/partials'
+    ]
+}))
+app.set('view engine', 'handlebars')
+
+//Body-parser
 app.use(express.urlencoded({
     extended: false
 }));
@@ -32,4 +42,3 @@ app.use("/aluno", aluno)
 
 
 module.exports = app;
-
