@@ -1,3 +1,8 @@
+//CONTROLLERS
+
+
+
+//Criações
 exports.post_Cadastro_Direcao = async (req, res) => {
     const {
         nome,
@@ -17,7 +22,7 @@ exports.post_Cadastro_Direcao = async (req, res) => {
     req.body.isDirecao = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
-        res.status(200).send(req.body)
+        res.status(201).send(req.body)
     }).catch((err) => {
         res.status(400).send(err.errors)
     });
@@ -46,7 +51,7 @@ exports.post_Cadastro_Docente = async (req, res) => {
     req.body.isDocente = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
-        res.status(200).send(req.body)
+        res.status(201).send(req.body)
     }).catch((err) => {
         res.status(400).send(err.errors)
     });
@@ -71,7 +76,7 @@ exports.post_Cadastro_Aluno = async (req, res) => {
     req.body.isAluno = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
-        res.status(200).send(req.body)
+        res.status(201).send(req.body)
     }).catch((err) => {
         res.status(400).send(err.errors)
     });
@@ -90,13 +95,33 @@ exports.post_Cadastro_Disciplina = async (req, res) => {
     try {
         // console.log(req.body)
         await Disciplina.create(req.body)
-        res.status(200).send(req.body)
+        res.status(201).send(req.body)
     } catch (error) {
         res.status(400).send(error)
     }
 }
 
-exports.post_Alterar = async (req, res) => {
+exports.post_Cadastro_Turma = async (req, res) => {
+    const {
+        nome,
+        ano,
+        criacao
+    } = req.body;
+
+    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+    try {
+        // console.log(req.body)
+        await Turma.create(req.body)
+        res.status(201).send(req.body)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+
+
+//Alterações
+exports.put_Alterar = async (req, res) => {
     const {
         id,
         nome,
@@ -160,7 +185,7 @@ exports.post_Alterar = async (req, res) => {
 
 }
 
-exports.post_Alterar_Aluno = async (req, res) => {
+exports.put_Alterar_Aluno = async (req, res) => {
     const {
         id,
         nome,
@@ -225,7 +250,7 @@ exports.post_Alterar_Aluno = async (req, res) => {
 
 }
 
-exports.post_Alterar_Docente = async (req, res) => {
+exports.put_Alterar_Docente = async (req, res) => {
     const {
         id,
         nome,
@@ -290,7 +315,7 @@ exports.post_Alterar_Docente = async (req, res) => {
 
 }
 
-exports.post_Alterar_Direcao = async (req, res) => {
+exports.put_Alterar_Direcao = async (req, res) => {
     const {
         id,
         nome,
@@ -355,7 +380,7 @@ exports.post_Alterar_Direcao = async (req, res) => {
 
 }
 
-exports.post_Alterar_Disciplina = async (req, res) => {
+exports.put_Alterar_Disciplina = async (req, res) => {
     const {
         id,
         nome,
@@ -380,4 +405,27 @@ exports.post_Alterar_Disciplina = async (req, res) => {
     }
 }
 
+exports.put_Alterar_Turma = async (req, res) => {
+    const {
+        id,
+        nome,
+        ano,
+        criacao
+    } = req.body;
+
+    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+
+    try {
+        await Turma.update(req.body, {
+            where: {
+                id: id
+            }
+        });
+        res.status(200).send(req.body)
+    } catch (error) {
+
+        res.status(400).send(error)
+    }
+
+}
 // exports.post_Alterar_Disciplina = {}

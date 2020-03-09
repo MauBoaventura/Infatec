@@ -7,7 +7,8 @@ const moment = require("moment")
 
 const {
     User,
-    Disciplina
+    Disciplina,
+    Turma
 } = require('../models');
 
 router.get('/', (req, res) => {
@@ -25,19 +26,27 @@ router.post('/cadastrar/aluno', controller.post_Cadastro_Docente)
 //Cadastra nova disciplina
 router.post('/cadastrar/disciplina', controller.post_Cadastro_Disciplina)
 
-//Altera dados do usuario diretor
-router.post('/alterar', controller.post_Alterar)
+//Cadastra nova turma
+router.post('/cadastrar/turma', controller.post_Cadastro_Turma)
 
-//Altera dados do usuario
-router.post('/alterar/aluno', controller.post_Alterar_Aluno)
 
-//Altera dados do usuario
-router.post('/alterar/docente', controller.post_Alterar_Docente)
 
-//Altera dados do usuario
-router.post('/alterar/direcao', controller.post_Alterar_Direcao)
+//Atualiza dados do usuario diretor
+router.put('/alterar', controller.put_Alterar)
 
-//Altera dados do usuario
-router.post('/alterar/disciplina', controller.post_Alterar_Disciplina)
+//Atualiza dados do aluno
+router.put('/alterar/aluno', controller.put_Alterar_Aluno)
+
+//Atualiza dados do docente
+router.put('/alterar/docente', controller.put_Alterar_Docente)
+
+//Atualiza dados de outra direcao
+router.put('/alterar/direcao', controller.put_Alterar_Direcao)
+
+//Atualiza dados da disciplina
+router.put('/alterar/disciplina', controller.put_Alterar_Disciplina)
+
+//Atualiza dados da turma
+router.put('/alterar/turma', controller.put_Alterar_Turma)
 
 module.exports = router;

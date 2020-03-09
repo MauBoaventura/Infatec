@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-    const Disciplina = sequelize.define('Disciplina', {
+    const Turma = sequelize.define('Turma', {
       nome: DataTypes.STRING,
       ano: DataTypes.STRING,
       criacao: DataTypes.DATE,
     });
   
-    return Disciplina;
+    return Turma;
   }
