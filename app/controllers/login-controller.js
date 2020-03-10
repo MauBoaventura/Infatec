@@ -35,6 +35,6 @@ exports.post = async (req, res) => {
         if (usuario.isAluno) {
             res.status(200).redirect("/")
         }
-s    }
+    }
 
 }
