@@ -12,7 +12,7 @@ const {
 } = require('../models');
 
 router.get('/', (req, res) => {
-    res.send("Direcao")
+    res.render('views')
 })
 //Cadastra novo diretor
 router.post('/cadastrar/direcao', controller.post_Cadastro_Direcao)
