@@ -11,9 +11,51 @@ const {
     Turma
 } = require('../models');
 
+//Rota principal
 router.get('/', (req, res) => {
     res.render('view/direcao/home')
 })
+
+//Rota direcao
+router.get('/direcao', controller.get_Direcao)
+
+router.get('/altera/:id', controller.get_Alterar)
+
+router.get('/deleta/:id', controller.get_Deletar)
+
+
+
+
+
+
+
+
+//Rota docente
+router.get('/docente', (req, res) => {
+    res.render('view/direcao/docente')
+})
+
+//Rota aluno
+router.get('/aluno', (req, res) => {
+    res.render('view/direcao/aluno')
+})
+
+//Rota disciplina
+router.get('/disciplina', (req, res) => {
+    res.render('view/direcao/disciplina')
+})
+
+//Rota turma
+router.get('/turma', (req, res) => {
+    res.render('view/direcao/turma')
+
+})
+
+
+
+
+
+
 //Cadastra novo diretor
 router.post('/cadastrar/direcao', controller.post_Cadastro_Direcao)
 
@@ -32,21 +74,21 @@ router.post('/cadastrar/turma', controller.post_Cadastro_Turma)
 
 
 //Atualiza dados do usuario diretor
-router.put('/alterar', controller.put_Alterar)
+router.post('/alterar', controller.post_Alterar)
 
 //Atualiza dados do aluno
-router.put('/alterar/aluno', controller.put_Alterar_Aluno)
+router.post('/alterar/aluno', controller.post_Alterar_Aluno)
 
 //Atualiza dados do docente
-router.put('/alterar/docente', controller.put_Alterar_Docente)
+router.post('/alterar/docente', controller.post_Alterar_Docente)
 
 //Atualiza dados de outra direcao
-router.put('/alterar/direcao', controller.put_Alterar_Direcao)
+router.post('/alterar/direcao', controller.post_Alterar_Direcao)
 
 //Atualiza dados da disciplina
-router.put('/alterar/disciplina', controller.put_Alterar_Disciplina)
+router.post('/alterar/disciplina', controller.post_Alterar_Disciplina)
 
 //Atualiza dados da turma
-router.put('/alterar/turma', controller.put_Alterar_Turma)
+router.post('/alterar/turma', controller.post_Alterar_Turma)
 
 module.exports = router;

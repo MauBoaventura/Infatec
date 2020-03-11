@@ -2,40 +2,42 @@
 <br>
 <br>
 <br>
+Digite o nome
 <br>
 <br>
 <br>
-<div class="card-deck">
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-        {{!-- <div class="card-header">Cabeçalho</div> --}}
-        <div class="card-body">
-            <h5 class="card-title">Direção</h5>
-        </div>
-    </div>
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-        {{!-- <div class="card-header">Cabeçalho</div> --}}
-        <div class="card-body">
-            <h5 class="card-title">Docente</h5>
-        </div>
-    </div>
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-        {{!-- <div class="card-header">Cabeçalho</div> --}}
-        <div class="card-body">
-            <h5 class="card-title">Aluno(a)</h5>
-        </div>
-    </div>
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-        {{!-- <div class="card-header">Cabeçalho</div> --}}
-        <div class="card-body">
-            <h5 class="card-title">Disciplina</h5>
-
-        </div>
-    </div>
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-        {{!-- <div class="card-header">Cabeçalho</div> --}}
-        <div class="card-body">
-            <h5 class="card-title">Turma</h5>
-
-        </div>
-    </div>
+<br>
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Data de nascimento</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each usuario}}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{this.nome}}</td>
+                <td>{{this.cpf}}</td>
+                <td>{{this.nascimento}}</td>
+                <td>
+                    <a href="altera/{{this.id}}">Alterar</a>/
+                    <a href="deleta/{{this.id}}">Excluir</a></td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>

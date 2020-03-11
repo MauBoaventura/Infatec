@@ -7,6 +7,101 @@ const {
     Turma
 } = require('../models');
 
+//GET
+exports.get_Direcao = async (req, res) => {
+    let usuarios = await User.findAll({
+        where: {
+            isDirecao: true
+        }
+    })
+    // .then((result) => {
+    //     res.render('view/direcao/direcao', {
+    //         usuario: result
+    //     })
+    // })
+
+    let resp = usuarios.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            cpf: dados.cpf,
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    })
+
+    // let data = moment(resp[0].nascimento, "YYYY-MM-DD");
+    // console.log(data.format("DD-MM-YYYY"))
+
+
+    // console.log(resp)
+
+
+    res.render('view/direcao/direcao', {
+        usuario: resp
+    })
+
+
+
+}
+
+exports.get_Alterar = async (req, res) => {
+    let id = req.params.id;
+    console.log("O ID É: " + id)
+    let usuarios = await User.findAll({
+        where: {
+            id: id
+        }
+    })
+
+    let resp = usuarios.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            cpf: dados.cpf,
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY"),
+            email: dados.email,
+            senha: dados.senha,
+            isAluno: dados.isAluno,
+            isDocente: dados.isDocente,
+            isDirecao: dados.isDirecao,
+        }
+    })
+
+    // let data = moment(resp[0].nascimento, "YYYY-MM-DD");
+    // console.log(data.format("DD-MM-YYYY"))
+
+
+    console.log(resp)
+    // console.log(usu)
+
+
+    res.render('view/direcao/alterar', {
+        usuario: resp
+    })
+
+
+
+}
+
+exports.get_Deletar = async (req, res) => {
+    try {
+        let id = req.params.id;
+        await User.destroy({
+            where: {
+                id: id
+            }
+        })
+        res.redirect('/direcao')
+
+    } catch (error) {
+        res.render('/direcao', {
+            msg: error
+        })
+    }
+}
+
+
+
 
 
 //Criações
@@ -128,7 +223,7 @@ exports.post_Cadastro_Turma = async (req, res) => {
 
 
 //Alterações
-exports.put_Alterar = async (req, res) => {
+exports.post_Alterar = async (req, res) => {
     const {
         id,
         nome,
@@ -192,7 +287,7 @@ exports.put_Alterar = async (req, res) => {
 
 }
 
-exports.put_Alterar_Aluno = async (req, res) => {
+exports.post_Alterar_Aluno = async (req, res) => {
     const {
         id,
         nome,
@@ -257,7 +352,7 @@ exports.put_Alterar_Aluno = async (req, res) => {
 
 }
 
-exports.put_Alterar_Docente = async (req, res) => {
+exports.post_Alterar_Docente = async (req, res) => {
     const {
         id,
         nome,
@@ -322,7 +417,7 @@ exports.put_Alterar_Docente = async (req, res) => {
 
 }
 
-exports.put_Alterar_Direcao = async (req, res) => {
+exports.post_Alterar_Direcao = async (req, res) => {
     const {
         id,
         nome,
@@ -375,19 +470,26 @@ exports.put_Alterar_Direcao = async (req, res) => {
                     id: id
                 }
             });
-            res.status(200).send(objAtualizado)
+            res.status(200).render('view/direcao/home', {
+                msg: objAtualizado
+            })
 
         } else {
-            res.status(400).send('Email já usado')
+            res.status(400).render('view/direcao/home', {
+                msg: 'Email já usado'
+            })
         }
     } else {
         console.log("Senha errada")
-        res.status(400).send('Senha errada')
+        res.status(400).render('view/direcao/home', {
+            msg: 'Senha errada'
+        })
     }
+    // res.status(400).render('view/login/login')
 
 }
 
-exports.put_Alterar_Disciplina = async (req, res) => {
+exports.post_Alterar_Disciplina = async (req, res) => {
     const {
         id,
         nome,
@@ -412,7 +514,7 @@ exports.put_Alterar_Disciplina = async (req, res) => {
     }
 }
 
-exports.put_Alterar_Turma = async (req, res) => {
+exports.post_Alterar_Turma = async (req, res) => {
     const {
         id,
         nome,
