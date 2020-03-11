@@ -80,6 +80,42 @@ exports.get_Docente = async (req, res) => {
 
 }
 
+exports.get_Aluno = async (req, res) => {
+    let usuarios = await User.findAll({
+        where: {
+            isAluno: true
+        }
+    })
+    // .then((result) => {
+    //     res.render('view/direcao/direcao', {
+    //         usuario: result
+    //     })
+    // })
+
+    let resp = usuarios.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            cpf: dados.cpf,
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    })
+
+    // let data = moment(resp[0].nascimento, "YYYY-MM-DD");
+    // console.log(data.format("DD-MM-YYYY"))
+
+
+    // console.log(resp)
+
+
+    res.render('view/direcao/aluno/aluno', {
+        usuario: resp
+    })
+
+
+
+}
+
 exports.get_Alterar = async (req, res) => {
     let id = req.params.id;
     console.log("O ID É: " + id)
@@ -158,6 +194,17 @@ exports.get_Cadastro_Docente = async (req, res) => {
     }
 }
 
+exports.get_Cadastro_Aluno = async (req, res) => {
+    try {
+        res.render('view/direcao/aluno/criar')
+
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
+
 
 
 //Criações
@@ -178,7 +225,7 @@ exports.post_Cadastro_Direcao = async (req, res) => {
 
     req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
     req.body.isDirecao = true
-    User.create(req.body).then((result) => {
+    User.create(req.body).then(() => {
         console.log("Inserido com sucesso")
         res.status(201).redirect('/direcao')
     }).catch((err) => {
@@ -233,16 +280,14 @@ exports.post_Cadastro_Aluno = async (req, res) => {
 
     req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
     req.body.isAluno = true
-    User.create(req.body).then((result) => {
+    User.create(req.body).then(() => {
         console.log("Inserido com sucesso")
-        res.status(201).send(req.body)
+        res.status(201).redirect('/direcao')
     }).catch((err) => {
-        res.status(400).send(err.errors)
+        res.status(400).render('view/direcao/home', {
+            msg: err.errors
+        })
     });
-    // User.
-
-
-    // res.status(200).send(req.body)
 }
 
 exports.post_Cadastro_Disciplina = async (req, res) => {
