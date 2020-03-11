@@ -20,18 +20,17 @@ router.get('/', (req, res) => {
 //Rota Genérica
 router.get('/altera/:id', controller.get_Alterar)
 router.get('/deleta/:id', controller.get_Deletar)
+router.post('/alterar', controller.post_Alterar)
 
 
 
 //Rota direcao
 //              Exibe todos os Diretores
-router.get('/direcao', controller.get_Alterar_Direcao)
+router.get('/direcao', controller.get_Direcao)
 //              Cadastra novo diretor GET
 router.get('/cadastrar/direcao', controller.get_Cadastro_Direcao)
 //              Cadastra novo diretor
 router.post('/cadastrar/direcao', controller.post_Cadastro_Direcao)
-//              Atualiza dados de outra direcao
-router.post('/alterar/direcao', controller.post_Alterar_Direcao)
 
 
 
@@ -39,9 +38,14 @@ router.post('/alterar/direcao', controller.post_Alterar_Direcao)
 
 
 //Rota docente
-router.get('/docente', (req, res) => {
-    res.render('view/direcao/docente')
-})
+//              Exibe todos os Docentes
+router.get('/docente', controller.get_Docente)
+//              Cadastra novo docente GET
+router.get('/cadastrar/docente', controller.get_Cadastro_Docente)
+//              Cadastra novo docente
+router.post('/cadastrar/docente', controller.post_Cadastro_Docente)
+
+
 
 //Rota aluno
 router.get('/aluno', (req, res) => {
@@ -64,8 +68,6 @@ router.get('/turma', (req, res) => {
 
 
 
-//Cadastra novo docente
-router.post('/cadastrar/docente', controller.post_Cadastro_Docente)
 
 //Cadastra novo aluno
 router.post('/cadastrar/aluno', controller.post_Cadastro_Docente)
@@ -79,13 +81,7 @@ router.post('/cadastrar/turma', controller.post_Cadastro_Turma)
 
 
 //Atualiza dados do usuario diretor
-router.post('/alterar', controller.post_Alterar)
-
-//Atualiza dados do aluno
-router.post('/alterar/aluno', controller.post_Alterar_Aluno)
-
-//Atualiza dados do docente
-router.post('/alterar/docente', controller.post_Alterar_Docente)
+// router.post('/alterar', controller.post_Alterar)
 
 //Atualiza dados da disciplina
 router.post('/alterar/disciplina', controller.post_Alterar_Disciplina)

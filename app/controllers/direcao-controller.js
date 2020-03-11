@@ -44,6 +44,42 @@ exports.get_Direcao = async (req, res) => {
 
 }
 
+exports.get_Docente = async (req, res) => {
+    let usuarios = await User.findAll({
+        where: {
+            isDocente: true
+        }
+    })
+    // .then((result) => {
+    //     res.render('view/direcao/direcao', {
+    //         usuario: result
+    //     })
+    // })
+
+    let resp = usuarios.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            cpf: dados.cpf,
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    })
+
+    // let data = moment(resp[0].nascimento, "YYYY-MM-DD");
+    // console.log(data.format("DD-MM-YYYY"))
+
+
+    // console.log(resp)
+
+
+    res.render('view/direcao/docente/docente', {
+        usuario: resp
+    })
+
+
+
+}
+
 exports.get_Alterar = async (req, res) => {
     let id = req.params.id;
     console.log("O ID É: " + id)
@@ -75,7 +111,7 @@ exports.get_Alterar = async (req, res) => {
     // console.log(usu)
 
 
-    res.render('view/direcao/direcao/alterar', {
+    res.render('view/direcao/alterar', {
         usuario: resp
     })
 
@@ -111,6 +147,17 @@ exports.get_Cadastro_Direcao = async (req, res) => {
     }
 }
 
+exports.get_Cadastro_Docente = async (req, res) => {
+    try {
+        res.render('view/direcao/docente/criar')
+
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
+
 
 
 //Criações
@@ -135,7 +182,7 @@ exports.post_Cadastro_Direcao = async (req, res) => {
         console.log("Inserido com sucesso")
         res.status(201).redirect('/direcao')
     }).catch((err) => {
-        res.status(400).render('view/direcao/home',{
+        res.status(400).render('view/direcao/home', {
             msg: err.errors
         })
     });
@@ -160,10 +207,13 @@ exports.post_Cadastro_Docente = async (req, res) => {
     req.body.isDocente = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
-        res.status(201).send(req.body)
+        res.status(201).redirect('/direcao')
     }).catch((err) => {
-        res.status(400).send(err.errors)
+        res.status(400).render('view/direcao/home', {
+            msg: err.errors
+        })
     });
+
 }
 
 exports.post_Cadastro_Aluno = async (req, res) => {
@@ -268,200 +318,6 @@ exports.post_Alterar = async (req, res) => {
             }
         })
 
-        //Verifica se o email esta sendo usado ou é o mesmo atual
-        if (usuarioEmail === null || usuarioEmail.email == email) {
-            console.log('Email não cadastrado, pode prosseguir com a atualizacao');
-            let objAtualizado = {
-                nome: nome,
-                cpf: cpf,
-                nascimento: req.body.nascimento,
-                email: email,
-                senha: senhaNova
-            }
-            await User.update(objAtualizado, {
-                where: {
-                    id: id
-                }
-            });
-            res.status(200).send('Objeto atualizado')
-        } else {
-            res.status(400).send('Email já usado')
-        }
-    } else {
-        console.log("Senha errada")
-        res.status(400).send('Senha errada')
-    }
-
-}
-
-exports.post_Alterar_Aluno = async (req, res) => {
-    const {
-        id,
-        nome,
-        cpf,
-        nascimento,
-        email,
-        senhaAntiga,
-        senhaNova
-    } = req.body;
-
-    console.log(nome)
-    console.log(cpf)
-    console.log(nascimento)
-    console.log(email)
-    console.log(senhaAntiga)
-    console.log(senhaNova)
-
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
-
-    //Pesquisa o usuario existente
-    const usuario = await User.findOne({
-        where: {
-            id: id
-        }
-    })
-
-    //Verifica as senhas
-    if (usuario.senha == req.body.senhaAntiga) {
-        console.log("As senhas conferem")
-
-        //Verifica email
-        const usuarioEmail = await User.findOne({
-            where: {
-                email: email
-            }
-        })
-
-        //Verifica se o email esta sendo usado
-        if (usuarioEmail === null || usuarioEmail.email == email) {
-            console.log('Email não cadastrado, pode prosseguir com a atualizacao');
-            let objAtualizado = {
-                nome: nome,
-                cpf: cpf,
-                nascimento: req.body.nascimento,
-                email: email,
-                senha: senhaNova
-            }
-            await User.update(objAtualizado, {
-                where: {
-                    id: id
-                }
-            });
-            res.status(200).send(req.body)
-
-        } else {
-            res.status(400).send('Email já usado')
-        }
-    } else {
-        console.log("Senha errada")
-        res.status(400).send('Senha errada')
-    }
-
-}
-
-exports.post_Alterar_Docente = async (req, res) => {
-    const {
-        id,
-        nome,
-        cpf,
-        nascimento,
-        email,
-        senhaAntiga,
-        senhaNova
-    } = req.body;
-
-    console.log(nome)
-    console.log(cpf)
-    console.log(nascimento)
-    console.log(email)
-    console.log(senhaAntiga)
-    console.log(senhaNova)
-
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
-
-    //Pesquisa o usuario existente
-    const usuario = await User.findOne({
-        where: {
-            id: id
-        }
-    })
-
-    //Verifica as senhas
-    if (usuario.senha == req.body.senhaAntiga) {
-        console.log("As senhas conferem")
-
-        //Verifica email
-        const usuarioEmail = await User.findOne({
-            where: {
-                email: email
-            }
-        })
-
-        //Verifica se o email esta sendo usado
-        if (usuarioEmail === null || usuarioEmail.email == email) {
-            console.log('Email não cadastrado, pode prosseguir com a atualizacao');
-            let objAtualizado = {
-                nome: nome,
-                cpf: cpf,
-                nascimento: req.body.nascimento,
-                email: email,
-                senha: senhaNova
-            }
-            await User.update(objAtualizado, {
-                where: {
-                    id: id
-                }
-            });
-            res.status(200).send(req.body)
-
-        } else {
-            res.status(400).send('Email já usado')
-        }
-    } else {
-        console.log("Senha errada")
-        res.status(400).send('Senha errada')
-    }
-
-}
-
-exports.post_Alterar_Direcao = async (req, res) => {
-    const {
-        id,
-        nome,
-        cpf,
-        nascimento,
-        email,
-        senhaAntiga,
-        senhaNova
-    } = req.body;
-
-    console.log(nome)
-    console.log(cpf)
-    console.log(nascimento)
-    console.log(email)
-    console.log(senhaAntiga)
-    console.log(senhaNova)
-
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
-
-    //Pesquisa o usuario existente
-    const usuario = await User.findOne({
-        where: {
-            id: id
-        }
-    })
-
-    //Verifica as senhas
-    if (usuario.senha == req.body.senhaAntiga) {
-        console.log("As senhas conferem")
-
-        //Verifica email
-        const usuarioEmail = await User.findOne({
-            where: {
-                email: email
-            }
-        })
-
         //Verifica se o email esta sendo usado
         if (usuarioEmail === null || usuarioEmail.email == email) {
             console.log('Email não cadastrado, pode prosseguir com a atualizacao');
@@ -492,7 +348,6 @@ exports.post_Alterar_Direcao = async (req, res) => {
             msg: 'Senha errada'
         })
     }
-    // res.status(400).render('view/login/login')
 
 }
 
@@ -545,3 +400,138 @@ exports.post_Alterar_Turma = async (req, res) => {
 
 }
 // exports.post_Alterar_Disciplina = {}
+
+// exports.post_Alterar_Aluno = async (req, res) => {
+//     const {
+//         id,
+//         nome,
+//         cpf,
+//         nascimento,
+//         email,
+//         senhaAntiga,
+//         senhaNova
+//     } = req.body;
+
+//     console.log(nome)
+//     console.log(cpf)
+//     console.log(nascimento)
+//     console.log(email)
+//     console.log(senhaAntiga)
+//     console.log(senhaNova)
+
+//     req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
+
+//     //Pesquisa o usuario existente
+//     const usuario = await User.findOne({
+//         where: {
+//             id: id
+//         }
+//     })
+
+//     //Verifica as senhas
+//     if (usuario.senha == req.body.senhaAntiga) {
+//         console.log("As senhas conferem")
+
+//         //Verifica email
+//         const usuarioEmail = await User.findOne({
+//             where: {
+//                 email: email
+//             }
+//         })
+
+//         //Verifica se o email esta sendo usado
+//         if (usuarioEmail === null || usuarioEmail.email == email) {
+//             console.log('Email não cadastrado, pode prosseguir com a atualizacao');
+//             let objAtualizado = {
+//                 nome: nome,
+//                 cpf: cpf,
+//                 nascimento: req.body.nascimento,
+//                 email: email,
+//                 senha: senhaNova
+//             }
+//             await User.update(objAtualizado, {
+//                 where: {
+//                     id: id
+//                 }
+//             });
+//             res.status(200).send(req.body)
+
+//         } else {
+//             res.status(400).send('Email já usado')
+//         }
+//     } else {
+//         console.log("Senha errada")
+//         res.status(400).send('Senha errada')
+//     }
+
+// }
+
+// exports.post_Alterar_Docente = async (req, res) => {
+//     const {
+//         id,
+//         nome,
+//         cpf,
+//         nascimento,
+//         email,
+//         senhaAntiga,
+//         senhaNova
+//     } = req.body;
+
+//     console.log(nome)
+//     console.log(cpf)
+//     console.log(nascimento)
+//     console.log(email)
+//     console.log(senhaAntiga)
+//     console.log(senhaNova)
+
+//     req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
+
+//     //Pesquisa o usuario existente
+//     const usuario = await User.findOne({
+//         where: {
+//             id: id
+//         }
+//     })
+
+//     //Verifica as senhas
+//     if (usuario.senha == req.body.senhaAntiga) {
+//         console.log("As senhas conferem")
+
+//         //Verifica email
+//         const usuarioEmail = await User.findOne({
+//             where: {
+//                 email: email
+//             }
+//         })
+
+//         //Verifica se o email esta sendo usado
+//         if (usuarioEmail === null || usuarioEmail.email == email) {
+//             console.log('Email não cadastrado, pode prosseguir com a atualizacao');
+//             let objAtualizado = {
+//                 nome: nome,
+//                 cpf: cpf,
+//                 nascimento: req.body.nascimento,
+//                 email: email,
+//                 senha: senhaNova
+//             }
+//             await User.update(objAtualizado, {
+//                 where: {
+//                     id: id
+//                 }
+//             });
+//             res.status(200).send(req.body)
+
+//         } else {
+//             res.status(400).send('Email já usado')
+//         }
+//     } else {
+//         console.log("Senha errada")
+//         res.status(400).send('Senha errada')
+//     }
+
+// }
+
+// exports.post_Alterar = async (req, res) => {
+//     // res.status(400).render('view/login/login')
+
+// }
