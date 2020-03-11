@@ -1,0 +1,22 @@
+<div class="container mt-4">
+    <div align="center" class="form-group">
+        <h2>Atualizar</h2>
+    </div>
+    {{#each disciplina}}
+
+    <form method="POST" action="/direcao/alterar/disciplina">
+        <input type="hidden" name="id" value="{{id}}">
+        <div class="form-group">
+            <label for="inputAddress">Nome</label>
+            <input type="text" class="form-control" name="nome" placeholder="João da Neves" value="{{nome}}">
+        </div>
+        <div class="form-group">
+            <label for="inputAddress2">Criacao</label>
+            <input type="text" class="form-control" name="criacao" placeholder="30/03/1997" value="{{criacao}}">
+        </div>
+        <button type="submit" class="btn btn-primary">Criar</button>
+    </form>
+</div> {{else}}
+Não encontrado
+{{/each}}
+</div>

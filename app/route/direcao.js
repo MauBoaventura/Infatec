@@ -24,6 +24,7 @@ router.post('/alterar', controller.post_Alterar)
 
 
 
+
 //ROTA DIREÇÃO
 //              Exibe todos os Diretores
 router.get('/direcao', controller.get_Direcao)
@@ -31,6 +32,8 @@ router.get('/direcao', controller.get_Direcao)
 router.get('/cadastrar/direcao', controller.get_Cadastro_Direcao)
 //              Cadastra novo diretor
 router.post('/cadastrar/direcao', controller.post_Cadastro_Direcao)
+
+
 
 
 //ROTA DOCENTE
@@ -43,6 +46,8 @@ router.post('/cadastrar/docente', controller.post_Cadastro_Docente)
 
 
 
+
+
 //ROTA ALUNO
 //              Exibe todos os Docentes
 router.get('/aluno', controller.get_Aluno)
@@ -52,10 +57,24 @@ router.get('/cadastrar/aluno', controller.get_Cadastro_Aluno)
 router.post('/cadastrar/aluno', controller.post_Cadastro_Aluno)
 
 
+
+
 //Rota disciplina
-router.get('/disciplina', (req, res) => {
-    res.render('view/direcao/disciplina')
-})
+//              Exibe todas as disciplinas
+router.get('/disciplina', controller.get_Disciplina)
+//              Cadastra nova disciplina GET
+router.get('/cadastrar/disciplina', controller.get_Cadastro_Disciplina)
+//              Cadastra nova disciplina
+router.post('/cadastrar/disciplina', controller.post_Cadastro_Disciplina)
+//              Atualizar dados da disciplina GET
+router.get('/alterar/disciplina/:id', controller.get_Alterar_Disciplina)
+//              Atualiza dados da disciplina
+router.post('/alterar/disciplina/', controller.post_Alterar_Disciplina)
+//              Deleta disciplina
+router.get('/deletar/disciplina/:id', controller.get_Deletar_Disciplina)
+
+
+
 
 //Rota turma
 router.get('/turma', (req, res) => {
@@ -64,15 +83,10 @@ router.get('/turma', (req, res) => {
 })
 
 
-//Cadastra nova disciplina
-router.post('/cadastrar/disciplina', controller.post_Cadastro_Disciplina)
-
 //Cadastra nova turma
 router.post('/cadastrar/turma', controller.post_Cadastro_Turma)
 
 
-//Atualiza dados da disciplina
-router.post('/alterar/disciplina', controller.post_Alterar_Disciplina)
 
 //Atualiza dados da turma
 router.post('/alterar/turma', controller.post_Alterar_Turma)

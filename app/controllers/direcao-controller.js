@@ -116,6 +116,24 @@ exports.get_Aluno = async (req, res) => {
 
 }
 
+exports.get_Disciplina = async (req, res) => {
+    let disciplinas = await Disciplina.findAll()
+
+    let resp = disciplinas.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    })
+
+    res.render('view/direcao/disciplina/disciplina', {
+        disciplina: resp
+    })
+}
+
+
+//Modificadores
 exports.get_Alterar = async (req, res) => {
     let id = req.params.id;
     console.log("O ID É: " + id)
@@ -155,6 +173,30 @@ exports.get_Alterar = async (req, res) => {
 
 }
 
+exports.get_Alterar_Disciplina = async (req, res) => {
+    let id = req.params.id;
+    console.log("O ID É: " + id)
+    let disciplina = await Disciplina.findAll({
+        where: {
+            id: id
+        }
+    })
+
+    let resp = disciplina.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY"),
+        }
+    })
+    console.log(resp)
+    res.render('view/direcao/disciplina/alterar', {
+        disciplina: resp
+    })
+
+
+}
+
 exports.get_Deletar = async (req, res) => {
     try {
         let id = req.params.id;
@@ -172,6 +214,26 @@ exports.get_Deletar = async (req, res) => {
     }
 }
 
+exports.get_Deletar_Disciplina = async (req, res) => {
+    try {
+        let id = req.params.id;
+        await Disciplina.destroy({
+            where: {
+                id: id
+            }
+        })
+        res.redirect('/direcao')
+
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
+
+
+
+//Cadastros
 exports.get_Cadastro_Direcao = async (req, res) => {
     try {
         res.render('view/direcao/direcao/criar')
@@ -204,6 +266,20 @@ exports.get_Cadastro_Aluno = async (req, res) => {
         })
     }
 }
+
+exports.get_Cadastro_Disciplina = async (req, res) => {
+    try {
+        res.render('view/direcao/disciplina/criar')
+
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
+
+
+
 
 
 
@@ -296,12 +372,15 @@ exports.post_Cadastro_Disciplina = async (req, res) => {
     } = req.body;
 
     req.body.criacao = moment(criacao, "DD/MM/YYYY")
+    console.log(req.body)
     try {
         // console.log(req.body)
         await Disciplina.create(req.body)
-        res.status(201).send(req.body)
-    } catch (error) {
-        res.status(400).send(error)
+        res.status(201).redirect('/direcao')
+    } catch (err) {
+        res.status(400).render('view/direcao/home', {
+            msg: err.errors
+        })
     }
 }
 
@@ -414,10 +493,14 @@ exports.post_Alterar_Disciplina = async (req, res) => {
         console.log(id)
         console.log(nome)
         console.log(criacao)
-        res.status(200).send(req.body)
+        res.status(200).render('view/direcao/home', {
+            msg: objAtualizado
+        })
     } catch (error) {
 
-        res.status(400).send(error)
+        res.status(400).render('view/direcao/home', {
+            msg: 'Senha errada'
+        })
     }
 }
 

@@ -1,0 +1,39 @@
+<br>
+<br>
+<br>
+<br>
+Digite o nome
+<br>
+<br>
+<a href="cadastrar/disciplina"><button type="button" class="btn btn-primary">Novo</button></a>
+<br>
+<br>
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data de nascimento</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each disciplina}}
+            <tr>
+                <td>{{this.nome}}</td>
+                <td>{{this.criacao}}</td>
+                <td>
+                    <a href="alterar/disciplina/{{this.id}}">Alterar</a>/
+                    <a href="deletar/disciplina/{{this.id}}">Excluir</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
