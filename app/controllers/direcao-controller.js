@@ -36,7 +36,7 @@ exports.get_Direcao = async (req, res) => {
     // console.log(resp)
 
 
-    res.render('view/direcao/direcao', {
+    res.render('view/direcao/direcao/direcao', {
         usuario: resp
     })
 
@@ -75,7 +75,7 @@ exports.get_Alterar = async (req, res) => {
     // console.log(usu)
 
 
-    res.render('view/direcao/alterar', {
+    res.render('view/direcao/direcao/alterar', {
         usuario: resp
     })
 
@@ -102,7 +102,7 @@ exports.get_Deletar = async (req, res) => {
 
 exports.get_Cadastro_Direcao = async (req, res) => {
     try {
-        res.render('view/direcao/criar')
+        res.render('view/direcao/direcao/criar')
 
     } catch (error) {
         res.render('view/direcao/home', {
@@ -135,7 +135,7 @@ exports.post_Cadastro_Direcao = async (req, res) => {
         console.log("Inserido com sucesso")
         res.status(201).redirect('/direcao')
     }).catch((err) => {
-        res.status(400).render('view/direcao/criar',{
+        res.status(400).render('view/direcao/home',{
             msg: err.errors
         })
     });

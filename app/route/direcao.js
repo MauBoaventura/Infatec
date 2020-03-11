@@ -21,9 +21,11 @@ router.get('/', (req, res) => {
 router.get('/altera/:id', controller.get_Alterar)
 router.get('/deleta/:id', controller.get_Deletar)
 
+
+
 //Rota direcao
 //              Exibe todos os Diretores
-router.get('/direcao', controller.get_Direcao)
+router.get('/direcao', controller.get_Alterar_Direcao)
 //              Cadastra novo diretor GET
 router.get('/cadastrar/direcao', controller.get_Cadastro_Direcao)
 //              Cadastra novo diretor
