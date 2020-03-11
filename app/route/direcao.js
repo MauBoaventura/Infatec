@@ -16,14 +16,20 @@ router.get('/', (req, res) => {
     res.render('view/direcao/home')
 })
 
-//Rota direcao
-router.get('/direcao', controller.get_Direcao)
 
+//Rota Genérica
 router.get('/altera/:id', controller.get_Alterar)
-
 router.get('/deleta/:id', controller.get_Deletar)
 
-
+//Rota direcao
+//              Exibe todos os Diretores
+router.get('/direcao', controller.get_Direcao)
+//              Cadastra novo diretor GET
+router.get('/cadastrar/direcao', controller.get_Cadastro_Direcao)
+//              Cadastra novo diretor
+router.post('/cadastrar/direcao', controller.post_Cadastro_Direcao)
+//              Atualiza dados de outra direcao
+router.post('/alterar/direcao', controller.post_Alterar_Direcao)
 
 
 
@@ -56,9 +62,6 @@ router.get('/turma', (req, res) => {
 
 
 
-//Cadastra novo diretor
-router.post('/cadastrar/direcao', controller.post_Cadastro_Direcao)
-
 //Cadastra novo docente
 router.post('/cadastrar/docente', controller.post_Cadastro_Docente)
 
@@ -81,9 +84,6 @@ router.post('/alterar/aluno', controller.post_Alterar_Aluno)
 
 //Atualiza dados do docente
 router.post('/alterar/docente', controller.post_Alterar_Docente)
-
-//Atualiza dados de outra direcao
-router.post('/alterar/direcao', controller.post_Alterar_Direcao)
 
 //Atualiza dados da disciplina
 router.post('/alterar/disciplina', controller.post_Alterar_Disciplina)

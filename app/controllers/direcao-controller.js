@@ -94,13 +94,22 @@ exports.get_Deletar = async (req, res) => {
         res.redirect('/direcao')
 
     } catch (error) {
-        res.render('/direcao', {
+        res.render('view/direcao/home', {
             msg: error
         })
     }
 }
 
+exports.get_Cadastro_Direcao = async (req, res) => {
+    try {
+        res.render('view/direcao/criar')
 
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
 
 
 
@@ -124,14 +133,12 @@ exports.post_Cadastro_Direcao = async (req, res) => {
     req.body.isDirecao = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
-        res.status(201).send(req.body)
+        res.status(201).redirect('/direcao')
     }).catch((err) => {
-        res.status(400).send(err.errors)
+        res.status(400).render('view/direcao/criar',{
+            msg: err.errors
+        })
     });
-    // User.
-
-
-    // res.status(200).send(req.body)
 }
 
 exports.post_Cadastro_Docente = async (req, res) => {
