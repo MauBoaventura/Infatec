@@ -76,20 +76,21 @@ router.get('/deletar/disciplina/:id', controller.get_Deletar_Disciplina)
 
 
 
+
 //Rota turma
-router.get('/turma', (req, res) => {
-    res.render('view/direcao/turma')
-
-})
-
-
-//Cadastra nova turma
+//              Exibe todas as turmas
+router.get('/turma', controller.get_Turma)
+//              Cadastra nova turma GET
+router.get('/cadastrar/turma', controller.get_Cadastro_Turma)
+//              Cadastra nova turma
 router.post('/cadastrar/turma', controller.post_Cadastro_Turma)
-
-
-
-//Atualiza dados da turma
+//              Atualizar dados da turma GET
+router.get('/alterar/turma/:id', controller.get_Alterar_Turma)
+//              Atualiza dados da turma
 router.post('/alterar/turma', controller.post_Alterar_Turma)
+//              Deleta turma
+router.get('/deletar/turma/:id', controller.get_Deletar_Turma)
+
 
 
 //Atualiza dados do usuario diretor

@@ -132,6 +132,23 @@ exports.get_Disciplina = async (req, res) => {
     })
 }
 
+exports.get_Turma = async (req, res) => {
+    let turmas = await Turma.findAll()
+
+    let resp = turmas.map((dados) => {
+        return {
+            id: dados.id,
+            criacao: dados.criacao,
+            nome: dados.nome,
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY")
+        }
+    })
+
+    res.render('view/direcao/turma/turma', {
+        turma: resp
+    })
+}
+
 
 //Modificadores
 exports.get_Alterar = async (req, res) => {
@@ -197,6 +214,30 @@ exports.get_Alterar_Disciplina = async (req, res) => {
 
 }
 
+exports.get_Alterar_Turma = async (req, res) => {
+    let id = req.params.id;
+    console.log("O ID É: " + id)
+    let turma = await Turma.findAll({
+        where: {
+            id: id
+        }
+    })
+
+    let resp = turma.map((dados) => {
+        return {
+            id: dados.id,
+            nome: dados.nome,
+            ano: dados.ano,
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY"),
+        }
+    })
+    console.log(resp)
+    res.render('view/direcao/turma/alterar', {
+        turma: resp
+    })
+
+
+}
 exports.get_Deletar = async (req, res) => {
     try {
         let id = req.params.id;
@@ -218,6 +259,23 @@ exports.get_Deletar_Disciplina = async (req, res) => {
     try {
         let id = req.params.id;
         await Disciplina.destroy({
+            where: {
+                id: id
+            }
+        })
+        res.redirect('/direcao')
+
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
+
+exports.get_Deletar_Turma = async (req, res) => {
+    try {
+        let id = req.params.id;
+        await Turma.destroy({
             where: {
                 id: id
             }
@@ -278,6 +336,16 @@ exports.get_Cadastro_Disciplina = async (req, res) => {
     }
 }
 
+exports.get_Cadastro_Turma = async (req, res) => {
+    try {
+        res.render('view/direcao/turma/criar')
+
+    } catch (error) {
+        res.render('view/direcao/home', {
+            msg: error
+        })
+    }
+}
 
 
 
@@ -386,18 +454,17 @@ exports.post_Cadastro_Disciplina = async (req, res) => {
 
 exports.post_Cadastro_Turma = async (req, res) => {
     const {
-        nome,
-        ano,
         criacao
     } = req.body;
 
     req.body.criacao = moment(criacao, "DD/MM/YYYY")
     try {
-        // console.log(req.body)
         await Turma.create(req.body)
-        res.status(201).send(req.body)
-    } catch (error) {
-        res.status(400).send(error)
+        res.status(201).redirect('/direcao')
+    } catch (err) {
+        res.status(400).render('view/direcao/home', {
+            msg: err.errors
+        })
     }
 }
 
@@ -520,10 +587,14 @@ exports.post_Alterar_Turma = async (req, res) => {
                 id: id
             }
         });
-        res.status(200).send(req.body)
+        res.status(200).render('view/direcao/home', {
+            msg: objAtualizado
+        })
     } catch (error) {
 
-        res.status(400).send(error)
+        res.status(400).render('view/direcao/home', {
+            msg: 'Senha errada'
+        })
     }
 
 }

@@ -1,0 +1,42 @@
+<br>
+<br>
+<br>
+<br>
+Digite o nome
+<br>
+<br>
+<a href="cadastrar/turma"><button type="button" class="btn btn-primary">Novo</button></a>
+<br>
+<br>
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Ano</th>
+                <th scope="col">Data de criação</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each turma}}
+            <tr>
+                <td>{{this.nome}}</td>
+                <td>{{this.ano}}</td>
+                <td>{{this.criacao}}</td>
+                <td>
+                    <a href="alterar/turma/{{this.id}}">Alterar</a>/
+                    <a href="deletar/turma/{{this.id}}">Excluir</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
