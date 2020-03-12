@@ -86,11 +86,6 @@ exports.get_Aluno = async (req, res) => {
             isAluno: true
         }
     })
-    // .then((result) => {
-    //     res.render('view/direcao/direcao', {
-    //         usuario: result
-    //     })
-    // })
 
     let resp = usuarios.map((dados) => {
         return {
@@ -100,12 +95,6 @@ exports.get_Aluno = async (req, res) => {
             nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
         }
     })
-
-    // let data = moment(resp[0].nascimento, "YYYY-MM-DD");
-    // console.log(data.format("DD-MM-YYYY"))
-
-
-    // console.log(resp)
 
 
     res.render('view/direcao/aluno/aluno', {
@@ -238,6 +227,7 @@ exports.get_Alterar_Turma = async (req, res) => {
 
 
 }
+
 exports.get_Deletar = async (req, res) => {
     try {
         let id = req.params.id;
@@ -338,7 +328,51 @@ exports.get_Cadastro_Disciplina = async (req, res) => {
 
 exports.get_Cadastro_Turma = async (req, res) => {
     try {
-        res.render('view/direcao/turma/criar')
+        let todos_alunos = await User.findAll({
+            where: {
+                isAluno: true
+            }
+        })
+        let alunos = todos_alunos.map((dados) => {
+            return {
+                id: dados.id,
+                nome: dados.nome,
+                cpf: dados.cpf,
+                nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+            }
+        })
+
+
+        let todos_docentes = await User.findAll({
+            where: {
+                isDocente: true
+            }
+        })
+        let docentes = todos_docentes.map((dados) => {
+            return {
+                id: dados.id,
+                nome: dados.nome,
+                cpf: dados.cpf,
+                nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+            }
+        })
+
+        let todas_disciplinas = await Disciplina.findAll()
+        let disciplinas = todas_disciplinas.map((dados) => {
+            return {
+                id: dados.id,
+                nome: dados.nome,
+                criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY")
+            }
+        })
+
+
+        res.render('view/direcao/turma/criar', {
+            aluno: alunos,
+            docente: docentes,
+            disciplina: disciplinas
+        })
+
 
     } catch (error) {
         res.render('view/direcao/home', {
@@ -597,140 +631,5 @@ exports.post_Alterar_Turma = async (req, res) => {
         })
     }
 
+
 }
-// exports.post_Alterar_Disciplina = {}
-
-// exports.post_Alterar_Aluno = async (req, res) => {
-//     const {
-//         id,
-//         nome,
-//         cpf,
-//         nascimento,
-//         email,
-//         senhaAntiga,
-//         senhaNova
-//     } = req.body;
-
-//     console.log(nome)
-//     console.log(cpf)
-//     console.log(nascimento)
-//     console.log(email)
-//     console.log(senhaAntiga)
-//     console.log(senhaNova)
-
-//     req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
-
-//     //Pesquisa o usuario existente
-//     const usuario = await User.findOne({
-//         where: {
-//             id: id
-//         }
-//     })
-
-//     //Verifica as senhas
-//     if (usuario.senha == req.body.senhaAntiga) {
-//         console.log("As senhas conferem")
-
-//         //Verifica email
-//         const usuarioEmail = await User.findOne({
-//             where: {
-//                 email: email
-//             }
-//         })
-
-//         //Verifica se o email esta sendo usado
-//         if (usuarioEmail === null || usuarioEmail.email == email) {
-//             console.log('Email não cadastrado, pode prosseguir com a atualizacao');
-//             let objAtualizado = {
-//                 nome: nome,
-//                 cpf: cpf,
-//                 nascimento: req.body.nascimento,
-//                 email: email,
-//                 senha: senhaNova
-//             }
-//             await User.update(objAtualizado, {
-//                 where: {
-//                     id: id
-//                 }
-//             });
-//             res.status(200).send(req.body)
-
-//         } else {
-//             res.status(400).send('Email já usado')
-//         }
-//     } else {
-//         console.log("Senha errada")
-//         res.status(400).send('Senha errada')
-//     }
-
-// }
-
-// exports.post_Alterar_Docente = async (req, res) => {
-//     const {
-//         id,
-//         nome,
-//         cpf,
-//         nascimento,
-//         email,
-//         senhaAntiga,
-//         senhaNova
-//     } = req.body;
-
-//     console.log(nome)
-//     console.log(cpf)
-//     console.log(nascimento)
-//     console.log(email)
-//     console.log(senhaAntiga)
-//     console.log(senhaNova)
-
-//     req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
-
-//     //Pesquisa o usuario existente
-//     const usuario = await User.findOne({
-//         where: {
-//             id: id
-//         }
-//     })
-
-//     //Verifica as senhas
-//     if (usuario.senha == req.body.senhaAntiga) {
-//         console.log("As senhas conferem")
-
-//         //Verifica email
-//         const usuarioEmail = await User.findOne({
-//             where: {
-//                 email: email
-//             }
-//         })
-
-//         //Verifica se o email esta sendo usado
-//         if (usuarioEmail === null || usuarioEmail.email == email) {
-//             console.log('Email não cadastrado, pode prosseguir com a atualizacao');
-//             let objAtualizado = {
-//                 nome: nome,
-//                 cpf: cpf,
-//                 nascimento: req.body.nascimento,
-//                 email: email,
-//                 senha: senhaNova
-//             }
-//             await User.update(objAtualizado, {
-//                 where: {
-//                     id: id
-//                 }
-//             });
-//             res.status(200).send(req.body)
-
-//         } else {
-//             res.status(400).send('Email já usado')
-//         }
-//     } else {
-//         console.log("Senha errada")
-//         res.status(400).send('Senha errada')
-//     }
-
-// }
-
-// exports.post_Alterar = async (req, res) => {
-//     // res.status(400).render('view/login/login')
-
-// }

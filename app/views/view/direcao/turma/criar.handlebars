@@ -18,4 +18,130 @@
         </div>
         <button type="submit" class="btn btn-primary">Criar</button>
     </form>
+    <br>
+    <a href="#" id="button" class="button">Vincular Docente</a>
 </div>
+
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Data de nascimento</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each aluno}}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{this.nome}}</td>
+                <td>{{this.cpf}}</td>
+                <td>{{this.nascimento}}</td>
+                <td>
+                    <a href="altera/{{this.id}}">Alterar</a>/
+                    <a href="deleta/{{this.id}}">Excluir</a></td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data de nascimento</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each disciplina}}
+            <tr>
+                <td>{{this.nome}}</td>
+                <td>{{this.criacao}}</td>
+                <td>
+                    <a href="alterar/disciplina/{{this.id}}">Alterar</a>/
+                    <a href="deletar/disciplina/{{this.id}}">Excluir</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Data de nascimento</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each docente}}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{this.nome}}</td>
+                <td>{{this.cpf}}</td>
+                <td>{{this.nascimento}}</td>
+                <td>
+                    <a href="altera/{{this.id}}">Alterar</a>/
+                    <a href="deleta/{{this.id}}">Excluir</a></td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+</div>
+<div class="bg-modal">
+    <div class="modal-contents">
+
+        <div class="close">+</div>
+        <img src="https://www.richardmiddleton.me/wp-content/themes/richardcodes/assets/img/avatar.png" alt="">
+        <br>
+        Vincular Docentes
+        <form action="">
+
+            <select class="form-control" id="docente" name="docente">
+                {{#each docente}}
+                <option>{{nome}}</option>
+                {{else}}
+                <option>--</option>
+                {{/each}}
+            </select>
+
+            <input type="exemplo" placeholder="E-Mail">
+            <a href="#" class="button">Submit</a>
+        </form>
+
+    </div>
