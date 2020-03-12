@@ -6,8 +6,7 @@ const {
     Disciplina,
     Turma,
     Aluno_turma,
-    Docente_disciplina,
-    Docente_turma
+    Turma_docente_disciplina
 } = require('../models');
 
 //GET
@@ -127,7 +126,14 @@ exports.get_Disciplina = async (req, res) => {
 exports.get_Turma = async (req, res) => {
     let turmas = await Turma.findAll()
 
-    let resp = turmas.map((dados) => {
+    let resp = turmas.map(async (dados) => {
+        // await Docente_turma.findAll({
+        //     where: {
+        //         id_turma: dados.id
+        //     }
+        // })
+
+
         return {
             id: dados.id,
             nome: dados.nome,
@@ -136,8 +142,10 @@ exports.get_Turma = async (req, res) => {
         }
     })
 
+
     res.render('view/direcao/turma/turma', {
-        turma: resp
+        turma: resp,
+        docentes_turma: todos_docentes
     })
 }
 
@@ -560,11 +568,21 @@ exports.post_Cadastro_Turma = async (req, res) => {
         var novaTurma = await Turma.create(req.body)
         console.log(novaTurma.id)
 
-        //Cria a relação entre docente e disciplinas
+         //Coloca os alunos na turma criada
+         alunos.map(async (item) => {
+            await Aluno_turma.create({
+                id_aluno: item,
+                id_turma: novaTurma.id
+            })
+        })
+
+
+        //Cria a relação entre turma docente e disciplinas
         for (let index = 0; index < docentes.length; index++) {
             let id_docente = docentes[index]
             disciplinas[index].map(async (item) => {
-                let relacao = await Docente_disciplina.create({
+               await Turma_docente_disciplina.create({
+                    id_turma: novaTurma.id,
                     id_docente: id_docente,
                     id_disciplina: item
                 })
@@ -572,27 +590,14 @@ exports.post_Cadastro_Turma = async (req, res) => {
             })
         }
 
-        //Coloca os alunos na turma criada
-        alunos.map(async (item) => {
-            await Aluno_turma.create({
-                id_aluno: item,
-                id_turma: novaTurma.id
-            })
-        })
-
-        //Coloca os docentes na turma criada
-        docentes.map(async (item) => {
-            await Docente_turma.create({
-                id_docente: item,
-                id_turma: novaTurma.id
-            })
-        })
-
-
-
-
-        // Docente_disciplina.create({})
-
+       
+        // //Coloca os docentes na turma criada
+        // docentes.map(async (item) => {
+        //     await Docente_turma.create({
+        //         id_docente: item,
+        //         id_turma: novaTurma.id
+        //     })
+        // })
 
         res.status(201).redirect('/direcao')
     } catch (err) {

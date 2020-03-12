@@ -10,8 +10,7 @@ const {
     Disciplina,
     Turma,
     Aluno_turma,
-    Docente_disciplina,
-    Docente_turma
+    Turma_docente_disciplina
 } = require('../models');
 
 //Rota principal

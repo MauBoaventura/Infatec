@@ -1,16 +1,19 @@
 module.exports = {
   up: (queryInterface, DataTypes) => {
-    return queryInterface.createTable('docente_turmas', {
+    return queryInterface.createTable('turma_docente_disciplinas', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      id_turma: {
+        type: DataTypes.INTEGER
+      },
       id_docente: {
         type: DataTypes.INTEGER
       },
-      id_turma: {
+      id_disciplina: {
         type: DataTypes.INTEGER
       },
       createdAt: {
@@ -25,6 +28,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('docente_turmas');
+    return queryInterface.dropTable('turma_docente_disciplinas');
   }
 };
