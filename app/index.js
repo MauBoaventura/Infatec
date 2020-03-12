@@ -38,5 +38,8 @@ app.use("/direcao", direcao)
 app.use("/docente", docente)
 app.use("/aluno", aluno)
 
+app.get("/", (req, res) => {
+    res.redirect("/login")
+})
 
 module.exports = app;
