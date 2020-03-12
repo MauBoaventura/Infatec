@@ -1,0 +1,76 @@
+<br>
+<br>
+<br>
+<br>
+Digite o nome
+<br>
+<br>
+<a href="cadastrar/turma"><button type="button" class="btn btn-primary">Novo</button></a>
+<br>
+<br>
+<div class="table-responsive-sm">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Ano</th>
+                <th scope="col">Data de criação</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each turma}}
+            <tr>
+                <td>{{this.nome}}</td>
+                <td>{{this.ano}}</td>
+                <td>{{this.criacao}}</td>
+                <td>
+                    <a href="alterar/turma/{{this.id}}">Alterar</a>/
+                    <a href="deletar/turma/{{this.id}}">Excluir</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <th scope="row">--</th>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<form action="/" id="searchForm">
+    <input type="text" name="s" placeholder="Search...">
+    <input type="submit" value="Search">
+</form>
+
+
+<script>
+
+    $("#searchForm").submit(function (event) {
+        // Exemplo de requisição POST
+        var ajax = new XMLHttpRequest();
+
+        // Seta tipo de requisição: Post e a URL da API
+        ajax.open("POST", "direcao/teste", true);
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // Seta paramêtros da requisição e envia a requisição
+        ajax.send("email=teste@teste.com");
+
+        // Cria um evento para receber o retorno.
+        ajax.onreadystatechange = function () {
+
+            // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
+            if (ajax.readyState == 4 && ajax.status == 200) {
+
+                var data = ajax.responseText;
+
+                // Retorno do Ajax
+                console.log(data);
+            }
+        }
+    })
+</script>

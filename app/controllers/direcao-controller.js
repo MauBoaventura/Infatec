@@ -25,7 +25,7 @@ exports.get_Direcao = async (req, res) => {
             id: dados.id,
             nome: dados.nome,
             cpf: dados.cpf,
-            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD-MM-YYYY")
         }
     })
 
@@ -61,7 +61,7 @@ exports.get_Docente = async (req, res) => {
             id: dados.id,
             nome: dados.nome,
             cpf: dados.cpf,
-            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD-MM-YYYY")
         }
     })
 
@@ -92,7 +92,7 @@ exports.get_Aluno = async (req, res) => {
             id: dados.id,
             nome: dados.nome,
             cpf: dados.cpf,
-            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD-MM-YYYY")
         }
     })
 
@@ -112,7 +112,7 @@ exports.get_Disciplina = async (req, res) => {
         return {
             id: dados.id,
             nome: dados.nome,
-            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY")
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
         }
     })
 
@@ -129,11 +129,37 @@ exports.get_Turma = async (req, res) => {
             id: dados.id,
             criacao: dados.criacao,
             nome: dados.nome,
-            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY")
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
         }
     })
 
     res.render('view/direcao/turma/turma', {
+        turma: resp
+    })
+}
+
+//TTTTTTTTTTTTTTTTTTTTTTTTEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSTTTTTTTTTTTTTTTTTTTTTTTTTT
+exports.get_Test = async (req, res) => {
+    let turmas = await Turma.findAll()
+
+    let resp = turmas.map((dados) => {
+        return {
+            id: dados.id,
+            criacao: dados.criacao,
+            nome: dados.nome,
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
+        }
+    })
+
+    res.render('view/direcao/turma/teste', {
+        turma: resp
+    })
+}
+exports.post_Test = async (req, res) => {
+    console.log(req.body)
+    console.log(req.params)
+
+    res.status(200).render('view/direcao/turma/teste', {
         turma: resp
     })
 }
@@ -154,7 +180,7 @@ exports.get_Alterar = async (req, res) => {
             id: dados.id,
             nome: dados.nome,
             cpf: dados.cpf,
-            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY"),
+            nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD-MM-YYYY"),
             email: dados.email,
             senha: dados.senha,
             isAluno: dados.isAluno,
@@ -192,7 +218,7 @@ exports.get_Alterar_Disciplina = async (req, res) => {
         return {
             id: dados.id,
             nome: dados.nome,
-            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY"),
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY"),
         }
     })
     console.log(resp)
@@ -217,7 +243,7 @@ exports.get_Alterar_Turma = async (req, res) => {
             id: dados.id,
             nome: dados.nome,
             ano: dados.ano,
-            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY"),
+            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY"),
         }
     })
     console.log(resp)
@@ -338,7 +364,7 @@ exports.get_Cadastro_Turma = async (req, res) => {
                 id: dados.id,
                 nome: dados.nome,
                 cpf: dados.cpf,
-                nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+                nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD-MM-YYYY")
             }
         })
 
@@ -353,7 +379,7 @@ exports.get_Cadastro_Turma = async (req, res) => {
                 id: dados.id,
                 nome: dados.nome,
                 cpf: dados.cpf,
-                nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD/MM/YYYY")
+                nascimento: moment(dados.nascimento, "YYYY-MM-DD").format("DD-MM-YYYY")
             }
         })
 
@@ -362,7 +388,7 @@ exports.get_Cadastro_Turma = async (req, res) => {
             return {
                 id: dados.id,
                 nome: dados.nome,
-                criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD/MM/YYYY")
+                criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
             }
         })
 
@@ -401,7 +427,7 @@ exports.post_Cadastro_Direcao = async (req, res) => {
     console.log(email)
     console.log(senha)
 
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
+    req.body.nascimento = moment(nascimento, "DD-MM-YYYY")
     req.body.isDirecao = true
     User.create(req.body).then(() => {
         console.log("Inserido com sucesso")
@@ -428,7 +454,7 @@ exports.post_Cadastro_Docente = async (req, res) => {
     console.log(email)
     console.log(senha)
 
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
+    req.body.nascimento = moment(nascimento, "DD-MM-YYYY")
     req.body.isDocente = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
@@ -456,7 +482,7 @@ exports.post_Cadastro_Aluno = async (req, res) => {
     console.log(email)
     console.log(senha)
 
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
+    req.body.nascimento = moment(nascimento, "DD-MM-YYYY")
     req.body.isAluno = true
     User.create(req.body).then(() => {
         console.log("Inserido com sucesso")
@@ -473,7 +499,7 @@ exports.post_Cadastro_Disciplina = async (req, res) => {
         criacao
     } = req.body;
 
-    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+    req.body.criacao = moment(criacao, "DD-MM-YYYY")
     console.log(req.body)
     try {
         // console.log(req.body)
@@ -491,15 +517,19 @@ exports.post_Cadastro_Turma = async (req, res) => {
         criacao
     } = req.body;
 
-    req.body.criacao = moment(criacao, "DD/MM/YYYY")
-    try {
-        await Turma.create(req.body)
-        res.status(201).redirect('/direcao')
-    } catch (err) {
-        res.status(400).render('view/direcao/home', {
-            msg: err.errors
-        })
-    }
+    req.body.criacao = moment(criacao, "DD-MM-YYYY")
+
+    console.log(req.body)
+    // try {
+    //     await Turma.create(req.body)
+    //     res.status(201).redirect('/direcao')
+    // } catch (err) {
+    //     res.status(400).render('view/direcao/home', {
+    //         msg: err.errors
+    //     })
+    // }
+    res.status(201).redirect('/direcao')
+
 }
 
 
@@ -523,7 +553,7 @@ exports.post_Alterar = async (req, res) => {
     console.log(senhaAntiga)
     console.log(senhaNova)
 
-    req.body.nascimento = moment(nascimento, "DD/MM/YYYY")
+    req.body.nascimento = moment(nascimento, "DD-MM-YYYY")
 
     //Pesquisa o usuario existente
     const usuario = await User.findOne({
@@ -583,7 +613,7 @@ exports.post_Alterar_Disciplina = async (req, res) => {
         criacao
     } = req.body;
 
-    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+    req.body.criacao = moment(criacao, "DD-MM-YYYY")
 
     try {
         await Disciplina.update(req.body, {
@@ -613,7 +643,7 @@ exports.post_Alterar_Turma = async (req, res) => {
         criacao
     } = req.body;
 
-    req.body.criacao = moment(criacao, "DD/MM/YYYY")
+    req.body.criacao = moment(criacao, "DD-MM-YYYY")
 
     try {
         await Turma.update(req.body, {

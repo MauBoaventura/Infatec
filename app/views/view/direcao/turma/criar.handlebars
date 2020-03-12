@@ -16,132 +16,69 @@
             <label for="inputAddress2">Criação</label>
             <input type="text" class="form-control" name="criacao" placeholder="30/03/1997">
         </div>
+        <div>
+            <input type="text" class="form-control" name="Insere_Docente" id="Insere_Docente">
+            <input type="text" class="form-control" name="Insere_Disciplinas" id="Insere_Disciplinas">
+        </div>
         <button type="submit" class="btn btn-primary">Criar</button>
     </form>
-    <br>
-    <a href="#" id="button" class="button">Vincular Docente</a>
 </div>
+{{!-- <a href="#" id="button" class="button">Vincular Docente</a> --}}
 
-<div class="table-responsive-sm">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">CPF</th>
-                <th scope="col">Data de nascimento</th>
-                <th scope="col">Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each aluno}}
-            <tr>
-                <th scope="row">1</th>
-                <td>{{this.nome}}</td>
-                <td>{{this.cpf}}</td>
-                <td>{{this.nascimento}}</td>
-                <td>
-                    <a href="altera/{{this.id}}">Alterar</a>/
-                    <a href="deleta/{{this.id}}">Excluir</a></td>
-            </tr>
-            {{else}}
-            <tr>
-                <th scope="row">--</th>
-                <td>--</td>
-                <td>--</td>
-                <td>--</td>
-                <td>--</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
+<button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modalExemplo">
+    Vincular Docentes Bootstrap
+</button>
 
-<div class="table-responsive-sm">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Data de nascimento</th>
-                <th scope="col">Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each disciplina}}
-            <tr>
-                <td>{{this.nome}}</td>
-                <td>{{this.criacao}}</td>
-                <td>
-                    <a href="alterar/disciplina/{{this.id}}">Alterar</a>/
-                    <a href="deletar/disciplina/{{this.id}}">Excluir</a>
-                </td>
-            </tr>
-            {{else}}
-            <tr>
-                <th scope="row">--</th>
-                <td>--</td>
-                <td>--</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
 
-<div class="table-responsive-sm">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">CPF</th>
-                <th scope="col">Data de nascimento</th>
-                <th scope="col">Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each docente}}
-            <tr>
-                <th scope="row">1</th>
-                <td>{{this.nome}}</td>
-                <td>{{this.cpf}}</td>
-                <td>{{this.nascimento}}</td>
-                <td>
-                    <a href="altera/{{this.id}}">Alterar</a>/
-                    <a href="deleta/{{this.id}}">Excluir</a></td>
-            </tr>
-            {{else}}
-            <tr>
-                <th scope="row">--</th>
-                <td>--</td>
-                <td>--</td>
-                <td>--</td>
-                <td>--</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
 
-</div>
-<div class="bg-modal">
-    <div class="modal-contents">
+<br>
+<br>
+<div>
+    <!-- Botão para acionar modal -->
 
-        <div class="close">+</div>
-        <img src="https://www.richardmiddleton.me/wp-content/themes/richardcodes/assets/img/avatar.png" alt="">
-        <br>
-        Vincular Docentes
-        <form action="">
+    <!-- Modal -->
+    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Vincular Docentes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="teste">
+                    <div class="modal-body">
+                        <select class="form-control" id="docente" name="docente">
+                            {{#each docente}}
+                            <option value="{{id}}">{{nome}}</option>
+                            {{else}}
+                            <option>--</option>
+                            {{/each}}
+                        </select>
+                        <br>
+                        <div data-spy="scroll">
+                            <ul class="list-group">
+                                {{#each disciplina}}
+                                <li class="list-group-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="check" name="{{id}}">
+                                        <label class="" for="check1">{{nome}}</label>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        <input type="text" id="campo">
 
-            <select class="form-control" id="docente" name="docente">
-                {{#each docente}}
-                <option>{{nome}}</option>
-                {{else}}
-                <option>--</option>
-                {{/each}}
-            </select>
-
-            <input type="exemplo" placeholder="E-Mail">
-            <a href="#" class="button">Submit</a>
-        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     </div>
+</div>

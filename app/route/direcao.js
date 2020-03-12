@@ -95,5 +95,7 @@ router.get('/deletar/turma/:id', controller.get_Deletar_Turma)
 
 //Atualiza dados do usuario diretor
 // router.post('/alterar', controller.post_Alterar)
+router.get('/teste', controller.get_Test)
+router.post('/teste', controller.post_Test)
 
 module.exports = router;
