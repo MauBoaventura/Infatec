@@ -14,11 +14,12 @@
         </div>
         <div class="form-group">
             <label for="inputAddress2">Criação</label>
-            <input type="text" class="form-control" name="criacao" placeholder="30/03/1997">
+            <input type="date" class="form-control" name="criacao" placeholder="30/03/1997">
         </div>
         <div>
             <input type="text" class="form-control" name="Insere_Docente" id="Insere_Docente">
             <input type="text" class="form-control" name="Insere_Disciplinas" id="Insere_Disciplinas">
+            <input type="text" class="form-control" name="Insere_Alunos" id="Insere_Alunos">
         </div>
         <button type="submit" class="btn btn-primary">Criar</button>
     </form>
@@ -27,6 +28,10 @@
 
 <button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modalExemplo">
     Vincular Docentes Bootstrap
+</button>
+
+<button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modalAluno">
+    Vincular Alunos Bootstrap
 </button>
 
 
@@ -47,7 +52,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="teste">
+                <form id="vincula_disciplinas">
                     <div class="modal-body">
                         <select class="form-control" id="docente" name="docente">
                             {{#each docente}}
@@ -70,6 +75,43 @@
                             </ul>
                         </div>
                         <input type="text" id="campo">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade-lg" id="modalAluno" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Vincular Alunos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="vincula_alunos">
+                    <div class="modal-body">
+                        <br>
+                        <div data-spy="scroll">
+                            <ul class="list-group">
+                                {{#each aluno}}
+                                <li class="list-group-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="check1" name="{{id}}">
+                                        <label class="" for="check1">Aluno: {{nome}} / CPF: {{cpf}} / Data de nascimento: {{nascimento}} </label>
+                                    </div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
 
                     </div>
                     <div class="modal-footer">

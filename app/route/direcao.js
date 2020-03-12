@@ -8,7 +8,10 @@ const moment = require("moment")
 const {
     User,
     Disciplina,
-    Turma
+    Turma,
+    Aluno_turma,
+    Docente_disciplina,
+    Docente_turma
 } = require('../models');
 
 //Rota principal

@@ -4,7 +4,10 @@ const moment = require("moment")
 const {
     User,
     Disciplina,
-    Turma
+    Turma,
+    Aluno_turma,
+    Docente_disciplina,
+    Docente_turma
 } = require('../models');
 
 //GET
@@ -127,8 +130,8 @@ exports.get_Turma = async (req, res) => {
     let resp = turmas.map((dados) => {
         return {
             id: dados.id,
-            criacao: dados.criacao,
             nome: dados.nome,
+            ano: dados.ano,
             criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
         }
     })
@@ -159,8 +162,14 @@ exports.post_Test = async (req, res) => {
     console.log(req.body)
     console.log(req.params)
 
+    Docente_disciplina.create({
+        id_disciplina: req.body.id_dis,
+        id_docente: req.body.id_doc
+    })
+
+
     res.status(200).render('view/direcao/turma/teste', {
-        turma: resp
+        // turma: resp
     })
 }
 
@@ -514,22 +523,85 @@ exports.post_Cadastro_Disciplina = async (req, res) => {
 
 exports.post_Cadastro_Turma = async (req, res) => {
     const {
-        criacao
+        criacao,
+        Insere_Docente,
+        Insere_Disciplinas,
+        Insere_Alunos
     } = req.body;
 
     req.body.criacao = moment(criacao, "DD-MM-YYYY")
 
-    console.log(req.body)
-    // try {
-    //     await Turma.create(req.body)
-    //     res.status(201).redirect('/direcao')
-    // } catch (err) {
-    //     res.status(400).render('view/direcao/home', {
-    //         msg: err.errors
-    //     })
-    // }
-    res.status(201).redirect('/direcao')
+    let docentes = (Insere_Docente.split(";"))
+    docentes = docentes.map((item => {
+        return parseInt(item)
+    }))
 
+    let disciplinas = Insere_Disciplinas.split(";")
+    disciplinas = disciplinas.map((item) => {
+        return item.replace("]", "").replace("[", "").split(",")
+    });
+    disciplinas = disciplinas.map((item) => {
+        return item.map((valor) => {
+            return parseInt(valor)
+        })
+    })
+
+    let alunos = (Insere_Alunos.split(","))
+    alunos = alunos.map((item => {
+        return parseInt(item)
+    }))
+    // console.log(docentes)
+    // console.log(disciplinas)
+    // console.log(alunos)
+
+
+    // console.log(req.body)
+    try {
+        var novaTurma = await Turma.create(req.body)
+        console.log(novaTurma.id)
+
+        //Cria a relação entre docente e disciplinas
+        for (let index = 0; index < docentes.length; index++) {
+            let id_docente = docentes[index]
+            disciplinas[index].map(async (item) => {
+                let relacao = await Docente_disciplina.create({
+                    id_docente: id_docente,
+                    id_disciplina: item
+                })
+
+            })
+        }
+
+        //Coloca os alunos na turma criada
+        alunos.map(async (item) => {
+            await Aluno_turma.create({
+                id_aluno: item,
+                id_turma: novaTurma.id
+            })
+        })
+
+        //Coloca os docentes na turma criada
+        docentes.map(async (item) => {
+            await Docente_turma.create({
+                id_docente: item,
+                id_turma: novaTurma.id
+            })
+        })
+
+
+
+
+        // Docente_disciplina.create({})
+
+
+        res.status(201).redirect('/direcao')
+    } catch (err) {
+        res.status(400).render('view/direcao/home', {
+            msg: err.errors
+        })
+    }
+
+    // res.status(201).redirect('/direcao')
 }
 
 
