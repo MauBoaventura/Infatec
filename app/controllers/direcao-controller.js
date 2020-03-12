@@ -126,26 +126,106 @@ exports.get_Disciplina = async (req, res) => {
 exports.get_Turma = async (req, res) => {
     let turmas = await Turma.findAll()
 
-    let resp = turmas.map(async (dados) => {
-        // await Docente_turma.findAll({
-        //     where: {
-        //         id_turma: dados.id
-        //     }
-        // })
-
-
+    let turmas_main = turmas.map((turma) => {
         return {
-            id: dados.id,
-            nome: dados.nome,
-            ano: dados.ano,
-            criacao: moment(dados.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
+            id: turma.id,
+            nome: turma.nome,
+            ano: turma.ano,
+            criacao: moment(turma.criacao, "YYYY-MM-DD").format("DD-MM-YYYY")
+        }
+    })
+
+    let nomes_docentes = turmas.map(async (turma) => {
+        let turma_docente_disciplinas = await Turma_docente_disciplina.findAll({
+            where: {
+                id_turma: turma.id
+            }
+        })
+
+        let ids_docentes = turma_docente_disciplinas.map((item) => {
+            return item.id_docente;
+        })
+
+        let nomes_docentes = ids_docentes.map(async (id_docente) => {
+
+            let docente_turma = await User.findAll({
+                where: {
+                    id: id_docente
+                }
+            })
+
+            let nomes = docente_turma.map((docente) => {
+                return docente.nome
+            })
+
+            const b = await Promise.all(nomes)
+
+            return b;
+        })
+        //Lista de nomes da turma
+        const a = await Promise.all(nomes_docentes)
+        return a;
+
+    })
+
+    //Nomes dos docentes para cada turma
+    nomes_docentes = await Promise.all(nomes_docentes)
+
+
+    let nomes_disciplinas = turmas.map(async (turma) => {
+        let turma_docente_disciplinas = await Turma_docente_disciplina.findAll({
+            where: {
+                id_turma: turma.id
+            }
+        })
+
+        let ids_disciplina = turma_docente_disciplinas.map((item) => {
+            return item.id_disciplina;
+        })
+
+        let nomes_disciplinas = ids_disciplina.map(async (id_disciplina) => {
+
+            let disciplina_turma = await Disciplina.findAll({
+                where: {
+                    id: id_disciplina
+                }
+            })
+
+            let nomes = disciplina_turma.map((disciplina) => {
+                return disciplina.nome
+            })
+
+            // console.log(nomes)
+            return await Promise.all(nomes);
+        })
+        //Lista de nomes da turma
+        let nomes_disciplinas1 = await Promise.all(nomes_disciplinas);
+        return nomes_disciplinas1
+
+        // const valores = await Promise.all(promessas);
+
+    })
+
+    //Nomes das disciplinas para cada turma
+    nomes_disciplinas = await Promise.all(nomes_disciplinas)
+
+
+    console.log(turmas_main)
+
+    var t = turmas.map((index) => {
+        return {
+            docentes: nomes_docentes[turmas.indexOf(index)],
+            disciplinas: nomes_disciplinas[turmas.indexOf(index)],
         }
     })
 
 
+    // console.log(docentes_disciplina)
+    console.log(t)
+
     res.render('view/direcao/turma/turma', {
-        turma: resp,
-        docentes_turma: todos_docentes
+        turma: turmas_main,
+        docentes_disciplina: t
     })
 }
 
@@ -568,8 +648,8 @@ exports.post_Cadastro_Turma = async (req, res) => {
         var novaTurma = await Turma.create(req.body)
         console.log(novaTurma.id)
 
-         //Coloca os alunos na turma criada
-         alunos.map(async (item) => {
+        //Coloca os alunos na turma criada
+        alunos.map(async (item) => {
             await Aluno_turma.create({
                 id_aluno: item,
                 id_turma: novaTurma.id
@@ -581,7 +661,7 @@ exports.post_Cadastro_Turma = async (req, res) => {
         for (let index = 0; index < docentes.length; index++) {
             let id_docente = docentes[index]
             disciplinas[index].map(async (item) => {
-               await Turma_docente_disciplina.create({
+                await Turma_docente_disciplina.create({
                     id_turma: novaTurma.id,
                     id_docente: id_docente,
                     id_disciplina: item
@@ -590,7 +670,7 @@ exports.post_Cadastro_Turma = async (req, res) => {
             })
         }
 
-       
+
         // //Coloca os docentes na turma criada
         // docentes.map(async (item) => {
         //     await Docente_turma.create({

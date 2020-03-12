@@ -25,8 +25,16 @@ Digite o nome
                 <td>{{ano}}</td>
                 <td>{{criacao}}</td>
                 <td>
+                    <button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal"
+                        data-target="#modalDocente{{id}}">
+                        Ver Docentes
+                    </button>
+                    <button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal"
+                        data-target="#modalAluno{{id}}">
+                        Ver Alunos
+                    </button>
                     <a href="alterar/turma/{{this.id}}">Alterar</a>/
-                    <a href="deletar/turma/{{this.id}}">Excluir</a>
+                    <a href="deletar/turma/{{this.id}}">Excluir</a>/
                 </td>
             </tr>
             {{else}}
@@ -39,4 +47,49 @@ Digite o nome
             {{/each}}
         </tbody>
     </table>
+</div>
+
+<div>
+    {{#each turma}}
+
+    {{!-- DIV Lista Alunos --}}
+    <div class="modal fade-lg" id="modalDocente{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Docentes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="vincula_alunos">
+                    <div class="modal-body">
+                        <br>
+                        <div data-spy="scroll">
+                            <ul class="list-group">
+                                {{#each docentes_disciplina}}
+                                {{!-- {{this.id}} --}}
+                                A
+                                <li class="list-group-item">
+                                    {{!-- {{this.nomes_docentes}} --}}
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+    {{/each}}
+
 </div>
