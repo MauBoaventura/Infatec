@@ -68,13 +68,10 @@ Digite o nome
                         <br>
                         <div data-spy="scroll">
                             <ul class="list-group">
-                                {{#each docentes_disciplina}}
-                                {{!-- {{this.id}} --}}
-                                A
-                                <li class="list-group-item">
-                                    {{!-- {{this.nomes_docentes}} --}}
-                                </li>
-                                {{/each}}
+
+                               {{#multi_list letters numbers}}
+                               {{/multi_list}}
+
                             </ul>
                         </div>
 

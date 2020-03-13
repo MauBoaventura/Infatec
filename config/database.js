@@ -1,3 +1,11 @@
+// module.exports = {
+//   username: 'root',
+//   password: 'password',
+//   database: 'infatec',
+//   host: 'localhost',
+//   dialect: 'mysql',
+// }
+
 module.exports = {
   username: 'b02654e4a43f8e',
   password: '1be49fe0',

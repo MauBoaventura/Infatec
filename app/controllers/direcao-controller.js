@@ -223,6 +223,7 @@ exports.get_Turma = async (req, res) => {
     // console.log(docentes_disciplina)
     console.log(t)
 
+
     res.render('view/direcao/turma/turma', {
         turma: turmas_main,
         docentes_disciplina: t
@@ -819,4 +820,29 @@ exports.post_Alterar_Turma = async (req, res) => {
     }
 
 
+}
+
+
+const Handlebars = require("handlebars");
+Handlebars.registerHelper('multi_list', async function (context, options) {
+    try {
+        var html = "";
+        var texto = 'asindajksnaoknsndasl'
+        dados
+
+
+
+
+        html = html + '<li class = "list-group-item">' + "docenteNome" + ' / ' + "disciplinaNome" +
+            '</li>'
+
+        return html;
+    } catch (err) {
+        return 'peguei'
+    }
+
+});
+
+function outra(params) {
+    
 }
