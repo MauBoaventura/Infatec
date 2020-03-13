@@ -1,4 +1,4 @@
-{{#if teste}}
+{{!-- {{#if msg}}
 a
 <div class "alert alert-success">{{sucess_mgs}}</div>
 {{/if}}
@@ -12,4 +12,14 @@ a
 
 {{#if error_mgs}}
 <div class "alert alert-success">{{error_mgs}}</div>
+{{/if}} --}}
+
+{{#if msg}}
+<div class="alert alert-warning" role="alert">
+    <strong>{{msg}}</strong>
+</div>
+
+<div class="alet"></div>
+{{!-- {{else}} --}}
+{{!-- sem msg --}}
 {{/if}}

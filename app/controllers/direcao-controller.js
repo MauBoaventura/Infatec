@@ -226,7 +226,9 @@ exports.get_Turma = async (req, res) => {
 
     res.render('view/direcao/turma/turma', {
         turma: turmas_main,
-        docentes_disciplina: t
+        nomes_disciplinas: nomes_disciplinas,
+        nomes_docentes: nomes_docentes
+
     })
 }
 
@@ -828,7 +830,7 @@ Handlebars.registerHelper('multi_list', async function (context, options) {
     try {
         var html = "";
         var texto = 'asindajksnaoknsndasl'
-        dados
+        // dados
 
 
 
@@ -844,5 +846,5 @@ Handlebars.registerHelper('multi_list', async function (context, options) {
 });
 
 function outra(params) {
-    
+
 }

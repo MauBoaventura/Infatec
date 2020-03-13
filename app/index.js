@@ -5,6 +5,18 @@ const path = require('path')
 
 const app = express();
 
+const session = require('express-session');
+const flash = require('connect-flash');
+
+//Session e flash msg
+app.use(session({
+	secret:'happy dog',
+	saveUninitialized: true,
+	resave: true
+}));
+
+app.use(flash());
+
 //Template engine
 app.set('views', path.join(__dirname, '/views'));
 
@@ -39,6 +51,7 @@ app.use("/docente", docente)
 app.use("/aluno", aluno)
 
 app.get("/", (req, res) => {
+    req.flash('message', 'This is a message from the "/" endpoint');
     res.redirect("/login")
 })
 
