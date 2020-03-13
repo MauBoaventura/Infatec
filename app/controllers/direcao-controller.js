@@ -362,11 +362,12 @@ exports.get_Deletar = async (req, res) => {
                 id: id
             }
         })
-        res.redirect('/direcao')
-
+        res.status(200).render('view/direcao/home', {
+            msg: "Apagado com sucesso"
+        })
     } catch (error) {
         res.render('view/direcao/home', {
-            msg: error
+            msg: "error"
         })
     }
 }
@@ -379,11 +380,12 @@ exports.get_Deletar_Disciplina = async (req, res) => {
                 id: id
             }
         })
-        res.redirect('/direcao')
-
+        res.status(200).render('view/direcao/home', {
+            msg: "Apagado com sucesso"
+        })
     } catch (error) {
         res.render('view/direcao/home', {
-            msg: error
+            msg: "error"
         })
     }
 }
@@ -396,7 +398,9 @@ exports.get_Deletar_Turma = async (req, res) => {
                 id: id
             }
         })
-        res.redirect('/direcao')
+        res.status(200).render('view/direcao/home', {
+            msg: "Apagado com sucesso"
+        })
 
     } catch (error) {
         res.render('view/direcao/home', {
@@ -531,7 +535,9 @@ exports.post_Cadastro_Direcao = async (req, res) => {
     req.body.isDirecao = true
     User.create(req.body).then(() => {
         console.log("Inserido com sucesso")
-        res.status(201).redirect('/direcao')
+        res.status(201).render('view/direcao/home', {
+            msg: "Cadastrado com sucesso"
+        })
     }).catch((err) => {
         res.status(400).render('view/direcao/home', {
             msg: err.errors
@@ -558,7 +564,9 @@ exports.post_Cadastro_Docente = async (req, res) => {
     req.body.isDocente = true
     User.create(req.body).then((result) => {
         console.log("Inserido com sucesso")
-        res.status(201).redirect('/direcao')
+        res.status(201).render('view/direcao/home', {
+            msg: "Cadastrado com sucesso"
+        })
     }).catch((err) => {
         res.status(400).render('view/direcao/home', {
             msg: err.errors
@@ -586,7 +594,9 @@ exports.post_Cadastro_Aluno = async (req, res) => {
     req.body.isAluno = true
     User.create(req.body).then(() => {
         console.log("Inserido com sucesso")
-        res.status(201).redirect('/direcao')
+        res.status(201).render('view/direcao/home', {
+            msg: "Cadastrado com sucesso"
+        })
     }).catch((err) => {
         res.status(400).render('view/direcao/home', {
             msg: err.errors
@@ -604,7 +614,9 @@ exports.post_Cadastro_Disciplina = async (req, res) => {
     try {
         // console.log(req.body)
         await Disciplina.create(req.body)
-        res.status(201).redirect('/direcao')
+        res.status(201).render('view/direcao/home', {
+            msg: "Cadastrado com sucesso"
+        })
     } catch (err) {
         res.status(400).render('view/direcao/home', {
             msg: err.errors
@@ -682,7 +694,9 @@ exports.post_Cadastro_Turma = async (req, res) => {
         //     })
         // })
 
-        res.status(201).redirect('/direcao')
+        res.status(201).render('view/direcao/home', {
+            msg: "Cadastrado com sucesso"
+        })
     } catch (err) {
         res.status(400).render('view/direcao/home', {
             msg: err.errors
@@ -749,7 +763,7 @@ exports.post_Alterar = async (req, res) => {
                 }
             });
             res.status(200).render('view/direcao/home', {
-                msg: objAtualizado
+                msg: "Atualizado com sucesso"
             })
 
         } else {
@@ -812,12 +826,12 @@ exports.post_Alterar_Turma = async (req, res) => {
             }
         });
         res.status(200).render('view/direcao/home', {
-            msg: objAtualizado
+            msg: "Atualizado com sucesso"
         })
     } catch (error) {
 
         res.status(400).render('view/direcao/home', {
-            msg: 'Senha errada'
+            msg: 'Erro'
         })
     }
 

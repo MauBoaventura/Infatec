@@ -17,26 +17,26 @@
             <input type="date" class="form-control" name="criacao" placeholder="30/03/1997">
         </div>
         <div>
-            <input type="text" class="form-control" name="Insere_Docente" id="Insere_Docente">
-            <input type="text" class="form-control" name="Insere_Disciplinas" id="Insere_Disciplinas">
-            <input type="text" class="form-control" name="Insere_Alunos" id="Insere_Alunos">
+            <input type="hidden" class="form-control" name="Insere_Docente" id="Insere_Docente">
+            <input type="hidden" class="form-control" name="Insere_Disciplinas" id="Insere_Disciplinas">
+            <input type="hidden" class="form-control" name="Insere_Alunos" id="Insere_Alunos">
         </div>
         <button type="submit" class="btn btn-primary">Criar</button>
+        {{!-- <a href="#" id="button" class="button">Vincular Docente</a> --}}
     </form>
+
 </div>
-{{!-- <a href="#" id="button" class="button">Vincular Docente</a> --}}
-
-<button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modalExemplo">
-    Vincular Docentes Bootstrap
-</button>
-
-<button id="btn" type="button" class="btn btn-primary mt-4" data-toggle="modal" data-target="#modalAluno">
-    Vincular Alunos Bootstrap
+<button id="btn" type="button" class="btn btn-primary mt-4 ml-3" data-toggle="modal" data-target="#modalExemplo">
+    Vincular Docentes
 </button>
 
 
+<button id="btn" type="button" class="btn btn-primary mt-4 ml-4" data-toggle="modal" data-target="#modalAluno">
+    Vincular Alunos
+</button>
 
-<br>
+
+
 <br>
 <div>
     <!-- Botão para acionar modal -->
@@ -106,7 +106,8 @@
                                 <li class="list-group-item">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="check1" name="{{id}}">
-                                        <label class="" for="check1">Aluno: {{nome}} / CPF: {{cpf}} / Data de nascimento: {{nascimento}} </label>
+                                        <label class="" for="check1">Aluno: {{nome}} / CPF: {{cpf}} / Data de
+                                            nascimento: {{nascimento}} </label>
                                     </div>
                                 </li>
                                 {{/each}}
